@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
 const {connectToDb, getDb} = require("./dbConnect")
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 
 const PORT = process.env.PORT || 3000
@@ -25,12 +27,12 @@ app.get('/api/data', async (req,res)=> {
     res.json(data)
 })
 
-app.send('/api/data', async (req, res) => {
+app.post('/api/data', async (req, res) => {
     try{
-        const data = req.body;
+        const {nom, description} = req.body;
         const collection = db.collection('produit')
         
-        const result = await collection.insertOne(data)
+        const result = await collection.insertOne({nom, description})
         res.status(201).json({message: 'Produit ajouter avec succes'})
     }catch(error){
         res.status(500).json({message: 'Pas envoyer avec succces', error})
