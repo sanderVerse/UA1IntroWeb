@@ -1,24 +1,20 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom'
+
+import Insertion from "./insertion"
+import Accueil from "./accueil.jsx"
 
 
 function App() {
-  const[produit, setProduit] = useState([])
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/api/data')
-    .then(response => setProduit(response.data))
-    .catch(error => console.error(error));
-  }, [])
-
 
   return (
     <>
       <div>
-        <h1>Produit de MongoDB</h1> 
-        <ul>
-          
-        </ul>
+       <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Accueil />}/>
+          <Route path='/insertion' element={<Insertion/>}/>
+        </Routes>
+       </BrowserRouter> 
       </div>
     </>
   )
