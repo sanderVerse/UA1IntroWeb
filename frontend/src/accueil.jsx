@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 function Accueil() {
@@ -22,7 +23,7 @@ const navigate = useNavigate()
   return(
     <div>
         <h1>Produit MongoDB</h1>
-        <button onClick={linkInsertion}>Page d'insertion</button>
+        <button onClick={linkInsertion}>Page d`insertion</button>
 
         {produit.length > 0 ? (
         <table>
@@ -35,7 +36,7 @@ const navigate = useNavigate()
           <tbody>
             {produit.map((produit, index) => (
               <tr key={index}>
-                <td>{produit.non}</td>
+                <td>{produit.nom}</td>
                 <td>{produit.description}</td>
               </tr>
             ))}

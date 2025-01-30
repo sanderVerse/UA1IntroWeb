@@ -27,7 +27,7 @@ app.get('/api/data', async (req,res)=> {
     res.json(data)
 })
 
-app.post('/api/data', async (req, res) => {
+app.post('/api/data/insertion', async (req, res) => {
     try{
         const {nom, description} = req.body;
         const collection = db.collection('produit')

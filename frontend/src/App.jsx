@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 import Insertion from "./insertion"
 import Accueil from "./accueil.jsx"
@@ -11,7 +11,7 @@ function App() {
       <div>
        <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Accueil />}/>
+          <Route path='/' element={<Accueil/>}/>
           <Route path='/insertion' element={<Insertion/>}/>
         </Routes>
        </BrowserRouter> 

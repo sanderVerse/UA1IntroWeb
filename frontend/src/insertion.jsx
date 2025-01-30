@@ -1,9 +1,12 @@
-import React, {useState} from "react";
+import {useState} from 'react';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Insertion() {
-    const [produitNom, setProduitNom] = useState
-    const [produitDesc, setProduitDesc] = useState
+    const [produitNom, setProduitNom] = useState('')
+    const [produitDesc, setProduitDesc] = useState('')
+
+    const navigate = useNavigate()
 
     const envoyerData = async () => {
         try{
@@ -12,8 +15,9 @@ function Insertion() {
                 desc: produitDesc,
             }
 
-            const response = await axios.post('http://localhost:3000/api/data', produitData)
+            const response = await axios.post('http://localhost:3000/api/data/insertion', produitData)
             console.log('Response:', response.data)
+            navigate("/")
         }catch (error){
             console.log('Erreur envoyer information: ', error)
         }
@@ -21,7 +25,7 @@ function Insertion() {
 
     return(
         <div>
-            <h1>Page d'insertion</h1>
+            <h1>Page d`insertion</h1>
             <div>
                 <label>
                     Produit nom:
