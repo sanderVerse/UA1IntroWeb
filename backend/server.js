@@ -18,10 +18,6 @@ connectToDb((err) => {
     }
 })
 
-app.get('/', (req, res)=>{
-    res.send("hello")
-})
-
 app.get('/api/data', async (req,res)=> {
     const data = await db.collection("produit").find().toArray();
     res.json(data)
@@ -36,5 +32,40 @@ app.post('/api/data/insertion', async (req, res) => {
         res.status(201).json({message: 'Produit ajouter avec succes'})
     }catch(error){
         res.status(500).json({message: 'Pas envoyer avec succces', error})
+    }
+})
+
+app.put('/api/data/:id', async (req, res) => {
+    try{
+        const {id} = req.params
+        const {nom, description} = req.body;
+        const collection = db.collection('produit')
+
+        const result = await collection.updateOne(
+            {_id: new ObjectId(id) },
+            {$set: {nom, description}}
+        )
+        if (result,modifiedCount === 0) {
+            return res.status(404).json({message: 'Produit pas trouvez'})
+        }
+    }catch(error){
+        res.status(500).json({message: 'Erreur de modification', error})
+    }
+})
+
+app.get('/api/data/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+        const collection = db.collection('produit')
+
+        const product = await collection.findOne({_id: new ObjectId(id)})
+
+        if (!product) {
+            return res.status(404).json({message: 'Produit non trouvez'})
+        }
+        res.json(product)
+    } catch (error) {
+        console.error('Erreur fething produit', error)
+        res.status(500).json({message: 'Une erreur est survenu', error})
     }
 })

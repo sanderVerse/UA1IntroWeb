@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom'
 function Accueil() {
 const navigate = useNavigate()
 
-  const linkInsertion = () => {
+  const goInsertion = () => {
     navigate("/insertion")
   }
 
-
+  const goModiffication = () => {
+    navigate("./modiffication")
+  }
 
   const[produit, setProduit] = useState([])
 
@@ -23,7 +25,7 @@ const navigate = useNavigate()
   return(
     <div>
         <h1>Produit MongoDB</h1>
-        <button onClick={linkInsertion}>Page d`insertion</button>
+        <button onClick= {goInsertion}>Page d'insertion</button>
 
         {produit.length > 0 ? (
         <table>
@@ -38,12 +40,15 @@ const navigate = useNavigate()
               <tr key={index}>
                 <td>{produit.nom}</td>
                 <td>{produit.description}</td>
+                <td>
+                  <button onClick={goModiffication}>Modiffication</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p>No products found.</p>
+        <p>Pas de produit trouvez</p>
       )}
     </div>
   )

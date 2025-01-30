@@ -12,7 +12,7 @@ function Insertion() {
         try{
             const produitData = {
                 nom: produitNom,
-                desc: produitDesc,
+                description: produitDesc,
             }
 
             const response = await axios.post('http://localhost:3000/api/data/insertion', produitData)
