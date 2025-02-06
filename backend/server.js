@@ -1,4 +1,6 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const ObjectId = require('mongodb').ObjectId; // Ensure ObjectId is imported
 const app = express()
 const {connectToDb, getDb} = require("./dbConnect")
 const cors = require('cors')
@@ -21,6 +23,7 @@ connectToDb((err) => {
 app.get('/api/data', async (req,res)=> {
     const data = await db.collection("produit").find().toArray();
     res.json(data)
+    console.log("!!!",data)
 })
 
 app.post('/api/data/insertion', async (req, res) => {
@@ -35,37 +38,77 @@ app.post('/api/data/insertion', async (req, res) => {
     }
 })
 
-app.put('/api/data/:id', async (req, res) => {
-    try{
-        const {id} = req.params
-        const {nom, description} = req.body;
-        const collection = db.collection('produit')
+//app.put('/api/data/:id', async (req, res) => {
+//    try{
+//        const id = req.params.id
+//        const {nom, description} = req.body;
+//        const collection = db.collection('produit')
+//
+//        const result = await collection.findByIdAndUpdate(id, req.body)
+//        if (!result) {
+//            return res.status(404).json({message: 'Produit pas trouvez'})
+//        }
+//        const resultaUpdate = await collection.findById(id)
+//        res.status(200).json(resultaUpdate)
+//    }catch(error){
+//        res.status(500).json({message: 'Erreur de modification', error})
+//    }
+//})
 
-        const result = await collection.updateOne(
-            {_id: new ObjectId(id) },
-            {$set: {nom, description}}
-        )
-        if (result,modifiedCount === 0) {
-            return res.status(404).json({message: 'Produit pas trouvez'})
-        }
-    }catch(error){
-        res.status(500).json({message: 'Erreur de modification', error})
+
+app.put('/api/data/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const { nom, description } = req.body;
+        const collection = db.collection('produit');
+
+        const misAjour = await collection.updateOne(
+            {_id: new ObjectId(id)}, 
+            {$set: {nom, description} }
+        );
+
+        const product = await collection.findOne({_id: new ObjectId(id)})
+        res.json(product)
+    } catch (error) {
+        console.error('Erreur de modification:', error);
+        res.status(500).json({ message: 'Erreur de modification', error });
     }
-})
+});
+
 
 app.get('/api/data/:id', async (req, res) => {
     try {
         const {id} = req.params
         const collection = db.collection('produit')
 
-        const product = await collection.findOne({_id: new ObjectId(id)})
-
-        if (!product) {
-            return res.status(404).json({message: 'Produit non trouvez'})
+        if (!ObjectId.isValid(id) || id.length !==24){
+            return res.status(400).json({error: 'format invalid'})
         }
+        const product = await collection.findOne({_id: new ObjectId(id)})
+        if (!product){
+            return res.status(404).json({message: "Document non trouves"})
+        }        
         res.json(product)
+
     } catch (error) {
         console.error('Erreur fething produit', error)
         res.status(500).json({message: 'Une erreur est survenu', error})
+    }
+})
+
+app.delete('/api/data/:id', async (req, res) => {
+    try{
+    const {id} = req.params
+
+    const collection = db.collection('produit')
+
+        if (!ObjectId.isValid(id) || id.length !==24){
+            return res.status(400).json({error: 'format invalid'})
+        }
+
+    await collection.deleteOne({_id: new ObjectId(id)})
+    res.status(200).json({message: `Produit supprime`})
+    } catch (err){
+        res.status(500).json({message: 'requete no good', err})
     }
 })

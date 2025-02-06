@@ -25,7 +25,7 @@ function Insertion() {
 
     return(
         <div>
-            <h1>Page d`insertion</h1>
+            <h1>Page d'insertion</h1>
             <div>
                 <label>
                     Produit nom:

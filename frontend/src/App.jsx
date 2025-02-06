@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Accueil/>}/>
           <Route path='/insertion' element={<Insertion/>}/>
-          <Route path='./modiffication/:id' element={<Modiffication/>}/>
+          <Route path='/modiffication/:id' element={<Modiffication/>}/>
         </Routes>
        </BrowserRouter> 
       </div>

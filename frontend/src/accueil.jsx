@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 
 
 function Accueil() {
+//const {id} = useParams()
 const navigate = useNavigate()
 
   const goInsertion = () => {
     navigate("/insertion")
-  }
-
-  const goModiffication = () => {
-    navigate("./modiffication")
   }
 
   const[produit, setProduit] = useState([])
@@ -21,6 +18,15 @@ const navigate = useNavigate()
     .then(response => setProduit(response.data))
     .catch(error => console.error(error));
   }, [])
+
+  const handledelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/data/${id}`)
+      setProduit(produit.filter((item) => item._id !== id))
+    }catch (error){
+      console.error("Failed to delete user ", error)
+    }
+  }
 
   return(
     <div>
@@ -36,12 +42,17 @@ const navigate = useNavigate()
             </tr>
           </thead>
           <tbody>
-            {produit.map((produit, index) => (
-              <tr key={index}>
+            {produit.map((produit) => (
+              <tr key={produit._id}>
                 <td>{produit.nom}</td>
                 <td>{produit.description}</td>
                 <td>
-                  <button onClick={goModiffication}>Modiffication</button>
+                 <Link to={`/modiffication/${produit._id}`}>
+                   <button>Modifier</button>
+                 </Link>
+                </td>
+                <td>
+                  <button onClick={() => handledelete(produit._id)}>Supprimer</button>
                 </td>
               </tr>
             ))}
