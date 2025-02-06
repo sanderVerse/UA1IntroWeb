@@ -1,3 +1,5 @@
+import './style.css';
+
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate} from 'react-router-dom'
@@ -31,7 +33,7 @@ const navigate = useNavigate()
   return(
     <div>
         <h1>Produit MongoDB</h1>
-        <button onClick= {goInsertion}>Page d'insertion</button>
+        <button onClick= {goInsertion}>Page d&apos;insertion</button>
 
         {produit.length > 0 ? (
         <table>

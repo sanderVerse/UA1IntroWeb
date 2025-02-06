@@ -1,3 +1,5 @@
+import './style.css';
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams} from 'react-router-dom';
@@ -40,22 +42,28 @@ function Modiffication() {
         <div>
             <h1>Modiffication du produit {nom}</h1>
             <div>
+                <label>
+                    Nom de produit:
                     <input
                         type="text"
                         value={nom}
                         onChange={(s) => setProduitNom(s.target.value)}
                         placeholder="Nom du produit"
                         />
+                </label>
             </div>
 
             <div>
-                <label>Description:</label>
-                <input
-                    type="text"
-                    value={description}
-                    onChange={(s) => setProduitDesc(s.target.value)}
-                />
+                <label>
+                    Description:
+                    <input
+                        type="text"
+                        value={description}
+                        onChange={(s) => setProduitDesc(s.target.value)}
+                        />
+                </label>
             </div>
+            
             <button onClick={handleUpdate}>Sauvegarder</button>
             <button onClick={() => navigate('/')}>Annuler</button>
 

@@ -1,3 +1,5 @@
+import './style.css';
+
 import {useState} from 'react';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +27,7 @@ function Insertion() {
 
     return(
         <div>
-            <h1>Page d'insertion</h1>
+            <h1>Page d&#39;insertion</h1>
             <div>
                 <label>
                     Produit nom:
